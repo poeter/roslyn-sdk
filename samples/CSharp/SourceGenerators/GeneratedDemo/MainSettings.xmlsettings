@@ -2,4 +2,5 @@
 <Settings name="Main">
   <Setting name="FirstRun" type="bool">false</Setting>
   <Setting name="CacheSize" type="int">1234</Setting>
+  <Setting name="ConfigProperty" type="string">something</Setting>
 </Settings>

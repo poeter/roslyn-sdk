@@ -40,7 +40,7 @@ namespace Analyzer1
 
             // create a class in the XmlSetting class that represnts this entry, and a static field that contains a singleton instance.
             string fileName = Path.GetFileName(xmlFile.Path);
-            string name = xmlDoc.DocumentElement.GetAttribute("name");
+            string name = xmlDoc.DocumentElement.Name;
 
             StringBuilder sb = new StringBuilder($@"
 namespace AutoSettings
@@ -48,26 +48,9 @@ namespace AutoSettings
     using System;
     using System.Xml;
 
-    public partial class XmlSettings
+    public partial class {name}
     {{
-        
-        public static {name}Settings {name} {{ get; }} = new {name}Settings(""{fileName}"");
-
-        public class {name}Settings 
-        {{
-            
-            XmlDocument xmlDoc = new XmlDocument();
-
-            private string fileName;
-
-            public string GetLocation() => fileName;
-                
-            internal {name}Settings(string fileName)
-            {{
-                this.fileName = fileName;
-                xmlDoc.Load(fileName);
-            }}
-");
+ ");
 
             for (int i = 0; i < xmlDoc.DocumentElement.ChildNodes.Count; i++)
             {
@@ -75,21 +58,15 @@ namespace AutoSettings
                 string settingName = setting.GetAttribute("name");
                 string settingType = setting.GetAttribute("type");
 
-                sb.Append($@"
-
-public {settingType} {settingName}
-{{
-    get
-    {{
-        return ({settingType}) Convert.ChangeType(((XmlElement)xmlDoc.DocumentElement.ChildNodes[{i}]).InnerText, typeof({settingType}));
-    }}
-}}
-");
+                sb.Append($@" 
+        public {settingType} {settingName} {{ get; set;}}
+    ");
             }
 
-            sb.Append("} } }");
+            sb.AppendLine("}");
+            sb.AppendLine("}");
 
-            context.AddSource($"Settings_{name}.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
+            context.AddSource($"{name}.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
         }
 
         public void Initialize(GeneratorInitializationContext context)

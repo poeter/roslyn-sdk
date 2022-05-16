@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Properties>
+  <Property name="Symbol" type="bool">
+      <Instrument Include="All"/>
+      <Instrument Exclude="Stock"/>
+  </Property>
+  <Property name="Quantity" type="int"/>
+  <Property name="Description" type="string"/>
+  <Property name="TradeDate" type="DateTime" />
+</Properties>

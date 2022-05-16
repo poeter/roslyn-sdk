@@ -21,6 +21,8 @@ namespace GeneratedDemo
             int cacheSize = XmlSettings.Main.CacheSize;
             Console.WriteLine($"Setting cacheSize = {cacheSize}");
 
+            string configProp = main.ConfigProperty;
+
             // Try adding some keys to the settings file and see the settings become available to read from
         }
     }
